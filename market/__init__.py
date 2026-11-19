@@ -1,6 +1,6 @@
 """Crochets Market — a marketplace of crochet makers, with a dashboard per seller, served by Flask."""
 from __future__ import annotations
-
+import os
 from pathlib import Path
 
 from flask import Flask
@@ -13,7 +13,8 @@ __version__ = "4.0.0"
 
 def create_app(overrides: dict | None = None) -> Flask:
     root = Path(__file__).resolve().parent.parent
-    app = Flask(__name__, instance_path=str(root / "instance"))
+    instance = Path("/tmp/instance") if os.environ.get("VERCEL") else root / "instance"
+    app = Flask(__name__, instance_path=str(instance))
     app.config.update(config.load(app.instance_path))
     if overrides:
         app.config.update(overrides)
