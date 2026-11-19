@@ -1,0 +1,5 @@
+Flask>=3.1,<4
+python-dotenv>=1.0
+waitress>=3.0        # production web server (works on Windows, macOS and Linux)
+openpyxl>=3.1        # Excel reports
+reportlab>=4.0       # PDF reports

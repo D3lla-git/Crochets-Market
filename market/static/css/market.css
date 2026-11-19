@@ -1,0 +1,129 @@
+/* Crochets Market — marketplace pieces of the shop pages: makers, store headers,
+   cart groups, reviews, made-to-order options. Loaded after shop.css. */
+.muted { color: var(--muted) }
+.search i { position: absolute; left: 16px; top: 50%; translate: 0 -50%; color: var(--muted) }
+.icon-btn i { font-size: 1.15rem }
+.bnav { grid-template-columns: repeat(5, 1fr) }
+.bnav i { font-size: 1.25rem; height: 23px; display: grid; place-items: center }
+.drop-ic { font-size: 2.2rem; color: var(--blue); display: block; margin-bottom: 6px }
+.by-maker { display: inline-block; font-size: .82rem; font-weight: 700; color: var(--accent); text-decoration: none; margin-top: 2px }
+.by-maker:hover { text-decoration: underline }
+.by-maker i { font-size: .75rem }
+.verified { color: var(--accent) }
+a.card-media { text-decoration: none }
+.btn-sm { padding: 9px 14px; font-size: .86rem }
+.btn-light { background: var(--card); color: var(--accent) }
+
+/* ---------- makers directory ---------- */
+.makers { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) }
+.maker { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; text-decoration: none; transition: transform .2s, box-shadow .2s }
+.maker:hover { transform: translateY(-3px); box-shadow: var(--shadow) }
+.maker-av { flex: none; width: 56px; height: 56px; border-radius: 18px; overflow: hidden; background: var(--grad); display: grid; place-items: center; font-family: var(--head); font-weight: 700; font-size: 1.5rem; color: var(--ink) }
+.maker-av img { width: 100%; height: 100%; object-fit: cover }
+.maker-body { display: grid; gap: 2px; min-width: 0 }
+.maker-body b { font-size: 1.02rem }
+.maker-body small { color: var(--muted); font-weight: 700 }
+.maker-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: .8rem; font-weight: 700; color: var(--ink-2); margin-top: 4px }
+.maker-meta i { color: var(--gold-ink) }
+.maker-slots { justify-self: start; margin-top: 6px; font-size: .74rem; font-weight: 800; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 3px 10px }
+
+/* ---------- store header ---------- */
+.store-head { background: var(--grad); padding: 30px 0 24px }
+.store-card { display: grid; gap: 18px; align-items: start }
+@media (min-width: 720px) { .store-card { grid-template-columns: auto 1fr; gap: 26px } }
+.store-avatar { width: 104px; height: 104px; border-radius: 30px; overflow: hidden; background: var(--card); border: 5px solid var(--card); box-shadow: var(--shadow); display: grid; place-items: center; font-family: var(--head); font-size: 2.6rem; font-weight: 700; color: var(--accent) }
+.store-avatar img { width: 100%; height: 100%; object-fit: cover }
+.store-main h1 { font-family: var(--head); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; margin: 6px 0 2px; letter-spacing: -.02em }
+.store-main .by { margin: 0 0 10px; font-weight: 700; color: var(--ink-2) }
+.store-main .bio { max-width: 62ch; color: var(--ink-2); margin: 10px 0 16px }
+.badges { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 8px }
+.badges li { display: inline-flex; align-items: center; gap: 6px; background: color-mix(in srgb, var(--card) 80%, transparent); border-radius: 999px; padding: 6px 12px; font-weight: 800; font-size: .84rem; color: var(--ink-2) }
+.badges li i { color: var(--gold-ink) }
+.badges .b-ok { background: var(--accent); color: #fff }
+.badges .b-ok i { color: #fff }
+.badges .b-warn { background: var(--warn-bg); color: var(--warn) }
+.store-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px }
+.store-actions .btn { padding: 11px 18px; font-size: .92rem }
+.store-info { display: grid; gap: 10px; margin-top: 20px }
+@media (min-width: 760px) { .store-info { grid-template-columns: repeat(3, 1fr) } }
+.info { display: flex; gap: 12px; align-items: flex-start; background: color-mix(in srgb, var(--card) 85%, transparent); border-radius: 16px; padding: 12px 14px }
+.info > i { flex: none; width: 34px; height: 34px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center }
+.info b { display: block; font-size: .92rem }
+.info p { margin: 2px 0 0; font-size: .86rem; color: var(--ink-2) }
+
+/* ---------- product pop-up: made-to-order options ---------- */
+.custom-opts { border: 1.5px dashed var(--accent-2); border-radius: 16px; padding: 12px 14px; margin: 0; display: grid; gap: 10px; background: var(--accent-soft) }
+.custom-opts legend { font-weight: 800; font-size: .9rem; padding: 0 6px; color: var(--accent) }
+.slot-line { margin: 0; font-size: .84rem; color: var(--ink-2) }
+.slot-box { margin-top: 16px; background: color-mix(in srgb, var(--card) 75%, transparent); border-radius: 16px; padding: 12px 14px; font-size: .9rem; color: var(--ink-2) }
+.slot-box p { margin: 4px 0 0 }
+.slot-title { font-family: var(--head); font-size: 1.05rem }
+
+/* ---------- cart grouped by maker ---------- */
+.cgroup { border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; margin-bottom: 14px; background: var(--card) }
+.cg-head { margin: 0 0 4px; font-size: 1rem; display: flex; align-items: center; gap: 6px }
+.cg-head a { text-decoration: none; color: var(--ink) }
+.totals.sub { margin: 10px 0 12px; font-size: .95rem }
+.cgroup .form-grid { margin-top: 6px }
+.cgroup .line:last-of-type { border-bottom: 0 }
+
+/* ---------- send results ---------- */
+.results { display: grid; gap: 10px; margin: 0 0 16px }
+.result { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; border-radius: 16px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line) }
+.result p { margin: 4px 0 0; font-size: .88rem }
+.result .order-no { margin: 6px 0 0 }
+.result.bad { background: var(--bad-bg); border-color: transparent }
+.result.warn { background: var(--warn-bg); border-color: transparent }
+.result-actions { display: flex; flex-wrap: wrap; gap: 8px }
+
+/* ---------- reviews ---------- */
+.reviews { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) }
+.review { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px }
+.review p { margin: 8px 0; color: var(--ink-2) }
+.review time { font-size: .78rem; color: var(--muted); font-weight: 700 }
+.rv-top { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center }
+.rv-stars { color: var(--gold-ink); letter-spacing: 2px; font-size: 1.05rem }
+.rv-who { font-weight: 800; font-size: .9rem }
+.vb { display: inline-flex; gap: 4px; align-items: center; font-size: .72rem; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 2px 8px; margin-left: 4px }
+.rating-field { border: 0; padding: 0; margin: 0 }
+.rate-stars { display: inline-flex; flex-direction: row-reverse; gap: 4px }
+.rate-stars input { position: absolute; opacity: 0; width: 1px; height: 1px }
+.rate-stars label { font-size: 2rem; color: var(--grey-2); cursor: pointer; line-height: 1; margin: 0 }
+.rate-stars input:checked ~ label, .rate-stars label:hover, .rate-stars label:hover ~ label { color: var(--gold-ink) }
+.rate-stars input:focus-visible + label { outline: 3px solid var(--blue); border-radius: 6px }
+
+/* ---------- sell call-to-action ---------- */
+.sell-band { background: var(--grad-strong); color: #fff; border-radius: 28px; padding: 28px; display: grid; gap: 18px; align-items: center }
+@media (min-width: 820px) { .sell-band { grid-template-columns: 1fr auto; padding: 36px 40px } }
+.sell-band h2 { font-family: var(--head); font-size: clamp(1.6rem, 3.6vw, 2.3rem); margin: 6px 0 8px; line-height: 1.1 }
+.sell-band p { margin: 0; opacity: .92; max-width: 60ch }
+
+/* ---------- delivery areas & fees ---------- */
+@media (min-width: 760px) { .store-info { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) } }
+.fee-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px }
+.fee-list li { display: flex; justify-content: space-between; gap: 10px; font-size: .86rem; color: var(--ink-2) }
+.fee-list li small { display: block; color: var(--muted); font-size: .76rem }
+.fee-list li b { white-space: nowrap; color: var(--ink) }
+.dopts { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; min-width: 0 }
+.dopts legend { font-weight: 800; font-size: .88rem; margin-bottom: 6px; padding: 0 }
+.dopts.err .dopt { border-color: var(--bad) }
+.dopt { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; border: 1.5px solid var(--line); border-radius: 14px;
+        padding: 10px 12px; cursor: pointer; background: var(--card); transition: border-color .15s, background .15s }
+.dopt:hover { border-color: var(--accent-2) }
+.dopt.on { border-color: var(--accent); background: var(--accent-soft) }
+.dopt input { width: 18px; height: 18px; accent-color: var(--accent); margin: 0 }
+.dopt-main { min-width: 0 }
+.dopt-main b { display: block; font-size: .92rem }
+.dopt-main small { display: block; color: var(--muted); font-size: .78rem; line-height: 1.35 }
+.dopt-fee { text-align: right; font-weight: 800 }
+.dopt-fee .money { align-items: flex-end }
+.free { color: var(--good); font-weight: 800 }
+.dopt-none { margin: 0; font-size: .86rem; color: var(--ink-2); background: var(--grey-soft); border-radius: 12px; padding: 10px 12px }
+.breakdown { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; display: grid; gap: 6px }
+.bd-row { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; font-size: .9rem }
+.bd-row > span:first-child { min-width: 0 }
+.bd-row small { display: block; color: var(--muted); font-size: .76rem }
+.bd-row .money { align-items: flex-end }
+.bd-row.pending > span:last-child { color: var(--warn); font-weight: 800; font-size: .82rem }
+.bd-total { font-weight: 800; font-size: .98rem }
+.incl { font-weight: 700; color: var(--muted); font-size: .72rem }

@@ -1,0 +1,38 @@
+{% extends "legal/_doc.html" %}
+{% block intro %}Buying and selling in person is how {{ shop.name }} works. These simple habits keep handoffs safe for everyone.{% endblock %}
+{% block body %}
+<div class="callout warn">If you ever feel unsafe, leave and contact the Liberia National Police on <strong>911</strong>. Then tell us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a> so we can act on the account.</div>
+
+<h2 id="where">Where to meet</h2>
+<ul>
+  <li>Choose one of the maker's listed <strong>public pickup spots</strong> — a busy market entrance, supermarket, mall, campus gate, landmark or delivery hub.</li>
+  <li>Meet in daylight where possible. Avoid isolated places, private homes and moving vehicles.</li>
+  <li>Bring a friend if you can, and tell someone where you're going and when.</li>
+</ul>
+
+<h2 id="before">Before you go</h2>
+<ul>
+  <li>Keep all messages about the order in WhatsApp, and quote your <strong>order number</strong> (it starts with CM-).</li>
+  <li>Check the maker's badges: <em>Verified phone</em>, completed handoffs and reviews from verified buyers.</li>
+  <li>Confirm the piece, size, colour, price (in US$ or L$) and meetup time in writing.</li>
+</ul>
+
+<h2 id="paying">Paying safely</h2>
+<ul>
+  <li>Inspect the piece before you pay.</li>
+  <li>Only pay a deposit when the maker's shop page says one is required, and only to the MTN MoMo or Orange Money number shown there.</li>
+  <li><strong>Never share your mobile-money PIN or one-time codes</strong> — no genuine buyer or seller will ask for them.</li>
+  <li>Keep your mobile-money confirmation message.</li>
+  <li>Count cash carefully and keep large amounts out of sight.</li>
+</ul>
+
+<h2 id="sellers">For makers</h2>
+<ul>
+  <li>List only public pickup spots and days you can really be there.</li>
+  <li>Bring only the pieces for that order.</li>
+  <li>Mark the order <em>Delivered</em> in your dashboard after the handoff, so the buyer can review you and your handoff count grows.</li>
+</ul>
+
+<h2 id="report">Report a problem</h2>
+<p>Email <a href="mailto:{{ shop.email }}">{{ shop.email }}</a> with the order number, the shop name and what happened. We review every report and may suspend accounts that put others at risk.</p>
+{% endblock %}

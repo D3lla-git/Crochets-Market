@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}{{ title }} · {{ shop.name }}{% endblock %}
+{% block description %}{{ title }} for {{ shop.name }}, a marketplace for crochet makers in Liberia.{% endblock %}
+{% block content %}
+<section class="phero">
+  <div class="wrap">
+    <span class="kicker">Legal</span>
+    <h1>{{ title }}</h1>
+    <p>{% block intro %}{% endblock %}</p>
+  </div>
+</section>
+<div class="wrap doc">
+  <nav class="doc-nav" aria-label="Legal documents">
+    {% for slug_, title_ in legal_pages.items() %}
+    <a href="/legal/{{ slug_ }}" {% if slug_ == doc %}aria-current="page"{% endif %}>{{ title_ }}</a>
+    {% endfor %}
+  </nav>
+  <article class="doc-body">
+    <p class="doc-meta">Last updated: {{ updated }} · Operated by {{ shop.name }}, a subsidiary of {{ entity }} · Contact: <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
+    {% block body %}{% endblock %}
+  </article>
+</div>
+{% endblock %}

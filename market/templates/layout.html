@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block title %}{{ shop.name }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ shop.name }} — a marketplace for Liberia's crochet makers.{% endblock %}">
+<meta name="theme-color" content="#0D2413">
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<meta name="color-scheme" content="light">
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:image" content="{{ url_for('static', filename='icons/icon-512.png', _external=True) }}">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<!-- Font Awesome icons — use <i class="fa-solid fa-…"></i>, fa-regular or fa-brands anywhere on the page -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+<script src="/config.js" defer></script>
+<script src="{{ url_for('static', filename='js/consent.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="ptop">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="{{ shop.name }} home">
+      <img src="{{ url_for('static', filename='icons/logo.png') }}" alt="" width="36" height="36">
+      <b>{{ shop.name }}</b>
+    </a>
+    <nav aria-label="Main">
+      <a href="/#makers">Makers</a>
+      <a href="/#shop">Shop</a>
+      <a href="/orders">My orders</a>
+      <a href="/sell" class="cta-link">Sell with us</a>
+      <button class="theme-toggle" type="button" data-action="theme" aria-label="Switch to dark mode"><i class="fa-solid fa-moon ic-light" aria-hidden="true"></i><i class="fa-solid fa-sun ic-dark" aria-hidden="true"></i></button>
+    </nav>
+  </div>
+</header>
+<main id="main">
+{% block content %}{% endblock %}
+</main>
+{% include "_footer.html" %}
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+{%- if page == "product" %}
+  {%- set page_title = product.name ~ " by " ~ seller.name ~ " · " ~ shop.name %}
+  {%- set page_desc = (product.desc or (product.category ~ " handmade by " ~ seller.name))[:155] %}
+  {%- set page_url = site_url ~ "/p/" ~ product.id %}
+  {%- set page_img = (site_url ~ product.images[0]) if product.images and product.images[0].startswith("/") else (product.images[0] if product.images else url_for('static', filename='icons/icon-512.png', _external=True)) %}
+{%- elif page == "store" %}
+  {%- set page_title = seller.name ~ " — crochet by " ~ (seller.ownerName or seller.name) ~ " · " ~ shop.name %}
+  {%- set page_desc = (seller.bio or ("Handmade crochet from " ~ seller.name ~ (", " ~ seller.location if seller.location else "") ~ ". Order on WhatsApp."))[:155] %}
+  {%- set page_url = site_url ~ "/s/" ~ seller.slug %}
+  {%- set page_img = (site_url ~ seller.avatar) if seller.avatar else url_for('static', filename='icons/icon-512.png', _external=True) %}
+{%- else %}
+  {%- set page_title = shop.name ~ " — Handmade crochet from Liberia's makers" %}
+  {%- set page_desc = "Browse handmade crochet clothes and accessories from local makers in Liberia. See what's ready now, order on WhatsApp, request custom pieces and meet up safely." %}
+  {%- set page_url = site_url ~ "/" %}
+  {%- set page_img = url_for('static', filename='icons/icon-512.png', _external=True) %}
+{%- endif %}
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ page_desc }}">
+<link rel="canonical" href="{{ page_url }}">
+<meta name="theme-color" content="#0D2413">
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<meta name="color-scheme" content="light">
+
+<!-- Social sharing previews (WhatsApp, Facebook, X…) -->
+<meta property="og:type" content="{{ 'product' if page == 'product' else 'website' }}">
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ page_desc }}">
+<meta property="og:url" content="{{ page_url }}">
+<meta property="og:image" content="{{ page_img }}">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Installable app -->
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="{{ shop.name }}">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<!-- Font Awesome icons — use <i class="fa-solid fa-…"></i>, fa-regular or fa-brands anywhere on the page -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/market.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+
+<script src="/config.js" defer></script>
+<script src="{{ url_for('static', filename='js/core.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/api.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/art.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/consent.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/shop.js') }}" defer></script>
+</head>
+<body data-page="{{ page }}" data-seller="{{ seller.slug if seller else '' }}" data-product="{{ product.id if product else '' }}">
+<a class="skip-link" href="#shop">Skip to the crochet</a>
+<noscript><p class="noscript">Please turn on JavaScript to browse the shop and send orders.</p></noscript>
+
+<!-- ================= HEADER ================= -->
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="{{ shop.name }} home">
+      <img src="{{ url_for('static', filename='icons/logo.png') }}" alt="" width="40" height="40">
+      <b>{{ shop.name }}</b>
+    </a>
+    <nav class="nav" aria-label="Main">
+      {% if page == "home" %}
+      <a href="#makers">Makers</a>
+      <a href="#shop">Shop</a>
+      <a href="#custom">Custom order</a>
+      {% else %}
+      <a href="/">All makers</a>
+      <a href="#shop">This shop</a>
+      {% if seller.customEnabled %}<a href="#custom">Custom order</a>{% endif %}
+      {% endif %}
+      <a href="/orders">My orders</a>
+      <a href="/sell">Sell with us</a>
+    </nav>
+    <div class="top-actions">
+      <button class="theme-toggle" type="button" data-action="theme" aria-label="Switch to dark mode"><i class="fa-solid fa-moon ic-light" aria-hidden="true"></i><i class="fa-solid fa-sun ic-dark" aria-hidden="true"></i></button>
+      <button class="install-btn" id="installTop" type="button">Install</button>
+      <button class="icon-btn" type="button" data-action="show-favs" aria-label="Saved favourites">
+        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+        <span class="count" data-fav-count data-n="0">0</span>
+      </button>
+      <button class="icon-btn" type="button" data-action="open-cart" aria-label="Open cart">
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+        <span class="count" data-cart-count data-n="0">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="home">
+{% if page == "home" %}
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">🧶 Handmade in Liberia</span>
+      <h1>Crochet from local makers, <em>ready now.</em></h1>
+      <p class="lead">See only what's available today from crochet makers across Monrovia — no scrolling through old posts. Pick your size and colour, send a neat order straight to the maker's WhatsApp, and meet at a safe public spot.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#shop">Shop all crochet</a>
+        <a class="btn btn-ghost" href="#makers">Find a maker</a>
+      </div>
+      <div class="hero-trust">
+        <span><i>✓</i> No sign-up to buy</span>
+        <span><i>✓</i> Verified makers &amp; reviews</span>
+        <span><i>✓</i> Safe meetup spots</span>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="float f1" id="heroA"></div>
+      <div class="float f2" id="heroB"></div>
+      <div class="float f3" id="heroC"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW ================= -->
+<section class="sec sec-how" id="how" aria-label="How ordering works">
+  <div class="wrap">
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><h3>Pick from what's ready</h3><p>Every piece shows live stock, sizes, colours and its price in US$ and L$.</p></div></div>
+      <div class="step"><div class="n">2</div><div><h3>Send one neat order</h3><p>Your cart becomes a tidy order message in the maker's WhatsApp — no back-and-forth.</p></div></div>
+      <div class="step"><div class="n">3</div><div><h3>Meet safely &amp; pay</h3><p>Choose the maker's public pickup spot and day, or delivery. Pay when you get your piece.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAKERS DIRECTORY ================= -->
+<section class="sec" id="makers">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">Makers</div>
+        <h2>Find a crochet maker</h2>
+        <p>Every maker has their own shop link, reviews from real buyers and safe pickup spots.</p>
+      </div>
+      <a class="btn btn-line" href="/sell"><i class="fa-solid fa-store" aria-hidden="true"></i> Start selling</a>
+    </div>
+    <div class="toolbar">
+      <label class="search">
+        <span class="sr">Search makers</span>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input id="mq" type="search" placeholder="Search makers or areas, e.g. Sinkor" autocomplete="off">
+      </label>
+    </div>
+    <div class="makers" id="makerGrid" aria-live="polite"></div>
+  </div>
+</section>
+{% else %}
+<!-- ================= STORE HEADER ================= -->
+<section class="store-head">
+  <div class="wrap">
+    <div class="store-card">
+      <div class="store-avatar">
+        {% if seller.avatar %}<img src="{{ seller.avatar }}" alt="" width="96" height="96">{% else %}<span aria-hidden="true">{{ seller.name[:1] }}</span>{% endif %}
+      </div>
+      <div class="store-main">
+        <span class="kicker">Crochet maker{% if seller.location %} · {{ seller.location }}{% endif %}</span>
+        <h1>{{ seller.name }}</h1>
+        {% if seller.ownerName %}<p class="by">by {{ seller.ownerName }}</p>{% endif %}
+        <ul class="badges" aria-label="Trust badges">
+          {% if seller.phoneVerified %}<li class="b-ok"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Verified phone</li>{% endif %}
+          <li><i class="fa-solid fa-handshake" aria-hidden="true"></i> {{ seller.handoffs }} completed handoff{{ '' if seller.handoffs == 1 else 's' }}</li>
+          <li>{% if seller.rating %}<i class="fa-solid fa-star" aria-hidden="true"></i> {{ seller.rating }} ({{ seller.reviews }} review{{ '' if seller.reviews == 1 else 's' }}){% else %}<i class="fa-regular fa-star" aria-hidden="true"></i> No reviews yet{% endif %}</li>
+          {% if seller.status != "active" %}<li class="b-warn">Preview — not public yet</li>{% endif %}
+        </ul>
+        {% if seller.bio %}<p class="bio">{{ seller.bio }}</p>{% endif %}
+        <div class="store-actions">
+          {% if seller.whatsapp %}<a class="btn btn-wa" href="https://api.whatsapp.com/send?phone={{ seller.whatsapp }}&amp;text={{ ('Hi ' ~ seller.name ~ ', I found you on ' ~ shop.name ~ '.')|urlencode }}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>{% endif %}
+          <button class="btn btn-line" type="button" data-action="share-store"><i class="fa-solid fa-link" aria-hidden="true"></i> Share shop link</button>
+          <button class="btn btn-line" type="button" data-action="review"><i class="fa-regular fa-star" aria-hidden="true"></i> Review an order</button>
+        </div>
+      </div>
+    </div>
+    <div class="store-info">
+      {% if seller.customEnabled %}
+      <div class="info">
+        <i class="fa-solid fa-scissors" aria-hidden="true"></i>
+        <div><b>Custom orders</b>
+          <p>{% if seller.customSlotsWeek %}{% if seller.customSlotsOpen %}<strong>{{ seller.customSlotsOpen }} of {{ seller.customSlotsWeek }}</strong> slots open this week{% else %}<strong>Fully booked</strong> this week — try next week{% endif %}{% else %}Open — send your style and measurements{% endif %}</p></div>
+      </div>
+      {% endif %}
+      {% if seller.depositRequired %}
+      <div class="info">
+        <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
+        <div><b>Deposit before work starts</b>
+          <p>{{ seller.depositPercent }}% via {% if seller.momoNumber %}MTN MoMo {{ seller.momoNumber }}{% endif %}{% if seller.momoNumber and seller.orangeNumber %} or {% endif %}{% if seller.orangeNumber %}Orange Money {{ seller.orangeNumber }}{% endif %}{% if not seller.momoNumber and not seller.orangeNumber %}mobile money{% endif %}{% if seller.depositNote %}. {{ seller.depositNote }}{% endif %}</p></div>
+      </div>
+      {% endif %}
+      <div class="info">
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        <div><b>Pickup {% if seller.pickupDays %}· {{ seller.pickupDays|join(', ') }}{% endif %}</b>
+          <p>{% if seller.pickupSpots %}{{ seller.pickupSpots|join(' · ') }}{% else %}Arrange a public meetup spot with the maker{% endif %} · <strong>free</strong></p></div>
+      </div>
+      {% if seller.deliveryAvailable %}
+      <div class="info">
+        <i class="fa-solid fa-truck" aria-hidden="true"></i>
+        <div><b>Delivery</b>
+          {% if seller.deliveryOptions %}
+          <ul class="fee-list">
+            {% for o in seller.deliveryOptions %}<li><span>{{ o.name }}{% if o.details %}<small>{{ o.details }}</small>{% endif %}</span><b>{% if o.fee %}US${{ '%g' % o.fee }}{% else %}Free{% endif %}</b></li>{% endfor %}
+          </ul>
+          {% else %}<p>Available — fee agreed with the maker</p>{% endif %}</div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if ads.client %}<div class="wrap"><div class="ad-slot" data-placement="{{ page }}"></div></div>{% endif %}
+
+<!-- ================= SHOP ================= -->
+<section class="sec" id="shop">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="kicker">{{ "Ready now" if page == "home" else seller.name }}</div>
+        <h2>{{ "Shop all crochet" if page == "home" else "Available from this maker" }}</h2>
+        <p>{{ "Fresh pieces from every maker — only what's available right now." if page == "home" else "Only what's ready to buy right now. Tap a piece to choose size and colour." }}</p>
+      </div>
+    </div>
+    <div class="toolbar">
+      <label class="search">
+        <span class="sr">Search</span>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input id="q" type="search" placeholder="Search dresses, tops, sets…" autocomplete="off">
+      </label>
+      <select id="sort" class="sort" aria-label="Sort products">
+        <option value="featured">Featured</option>
+        <option value="new">Newest</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+      </select>
+    </div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Filter by category"></div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+  </div>
+</section>
+
+{% if page != "home" %}
+<!-- ================= REVIEWS ================= -->
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="kicker">Verified buyers</div><h2>Reviews</h2><p>Only buyers whose order was delivered can leave a review.</p></div>
+      <button class="btn btn-line" type="button" data-action="review"><i class="fa-regular fa-star" aria-hidden="true"></i> Review your order</button>
+    </div>
+    <div class="reviews" id="reviewList"><p class="muted">Loading reviews…</p></div>
+  </div>
+</section>
+{% endif %}
+
+{% if page == "home" or seller.customEnabled %}
+<!-- ================= CUSTOM ORDER ================= -->
+<section class="sec custom" id="custom">
+  <div class="wrap custom-grid">
+    <div class="custom-intro">
+      <span class="eyebrow"><i class="fa-solid fa-sliders"></i> Custom order</span>
+      <h2>Have a style in mind? {{ "A maker will crochet it." if page == "home" else seller.name ~ " can crochet it." }}</h2>
+      <p>Send photos of any crochet style you love — from Instagram, Pinterest or your own sketch — plus your measurements. The maker replies with a price, timeline and any deposit needed.</p>
+      <ul>
+        <li><b>1</b>{{ "Choose a maker and upload" if page == "home" else "Upload" }} photos of the style</li>
+        <li><b>2</b>Choose the type of clothing and enter your measurements</li>
+        <li><b>3</b>Add your colours, budget and when you need it</li>
+        <li><b>4</b><span>Tap <strong>Send to maker</strong> — no account needed</span></li>
+      </ul>
+      <div class="slot-box" id="slotBox" hidden></div>
+    </div>
+
+    <form class="panel" id="customForm" novalidate>
+      <h3>Custom style request</h3>
+      <p class="sub">Fields marked <span class="req">*</span> are required.</p>
+
+      {% if page == "home" %}
+      <div class="field" style="margin-bottom:16px">
+        <label for="cseller">Maker <span class="req">*</span></label>
+        <select id="cseller" required><option value="">Choose a maker…</option></select>
+      </div>
+      {% else %}
+      <input type="hidden" id="cseller" value="{{ seller.slug }}">
+      {% endif %}
+
+      <div class="based-on" id="basedOn"><span>✨ Based on: <b id="basedOnName"></b></span><button type="button" id="clearBased" aria-label="Remove">Remove ✕</button></div>
+
+      <div class="fieldset">
+        <div class="legend"><span class="num">1</span> Photos of the style you want <span class="req">*</span></div>
+        <label class="drop" id="drop">
+          <input type="file" id="photoInput" accept="image/*" multiple class="sr" aria-describedby="dropHint">
+          <i class="fa-regular fa-images drop-ic" aria-hidden="true"></i>
+          <b>Tap to add photos</b>
+          <small id="dropHint">or drag &amp; drop · up to 6 images (JPG/PNG)</small>
+        </label>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+
+      <div class="fieldset">
+        <div class="legend"><span class="num">2</span> Clothing type &amp; measurements</div>
+        <div class="form-grid two" style="margin-bottom:14px">
+          <div class="field">
+            <label for="ctype">Type of clothing <span class="req">*</span></label>
+            <select id="ctype" required><option value="">Choose…</option></select>
+          </div>
+          <div class="field">
+            <label for="cfor">Who is it for?</label>
+            <select id="cfor">
+              <option>Woman</option><option>Man</option><option>Girl (child)</option><option>Boy (child)</option><option>Baby</option><option>Anyone</option>
+            </select>
+          </div>
+        </div>
+        <div id="measureBox" hidden>
+          <div class="measure-head">
+            <span class="lab" style="font-weight:800">Your measurements</span>
+            <div class="seg" role="group" aria-label="Measurement unit">
+              <button type="button" data-unit="in" aria-pressed="true">inches</button>
+              <button type="button" data-unit="cm" aria-pressed="false">cm</button>
+            </div>
+          </div>
+          <div class="form-grid two" id="measureFields"></div>
+          <details class="guide">
+            <summary>📏 How to measure</summary>
+            <ul>
+              <li>Use a soft tape measure over light clothing. Keep the tape snug, not tight.</li>
+              <li><b>Bust/Chest:</b> around the fullest part, tape level under the arms.</li>
+              <li><b>Waist:</b> around the narrowest part of your natural waist.</li>
+              <li><b>Hips:</b> around the fullest part of your hips and seat.</li>
+              <li><b>Lengths:</b> stand straight; measure from the top point named down to where you want it to end.</li>
+              <li>Not sure? Fill what you can and add your usual size — the maker will check with you.</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+
+      <div class="fieldset">
+        <div class="legend"><span class="num">3</span> Style details</div>
+        <div class="form-grid two">
+          <div class="field"><label for="ccolors">Colours you want</label><input id="ccolors" maxlength="200" placeholder="e.g. navy &amp; cream"></div>
+          <div class="field"><label for="csize">Your usual size</label><select id="csize"><option value="">Not sure</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>2XL</option><option>3XL</option><option>4XL+</option></select></div>
+          <div class="field"><label for="cbudget">Budget (optional)</label><input id="cbudget" maxlength="20" placeholder="e.g. US$40 or L$7,000"></div>
+          <div class="field"><label for="cdate">Needed by (optional)</label><input id="cdate" type="date"></div>
+        </div>
+        <div class="field" style="margin-top:12px"><label for="cnotes">Anything else?</label><textarea id="cnotes" maxlength="2000" placeholder="Lining, length changes, yarn type, occasion…"></textarea></div>
+      </div>
+
+      <div class="fieldset" style="margin-bottom:16px">
+        <div class="legend"><span class="num">4</span> Your details</div>
+        <div class="form-grid two">
+          <div class="field"><label for="cname">Your name <span class="req">*</span></label><input id="cname" data-sync="name" autocomplete="name" maxlength="80" required></div>
+          <div class="field"><label for="cphone">Phone / WhatsApp <span class="req">*</span></label><input id="cphone" data-sync="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+231 77 000 0000" maxlength="30" required></div>
+          <div class="field" style="grid-column:1/-1"><label for="cloc">Your location</label><input id="cloc" data-sync="location" autocomplete="address-level2" maxlength="120" placeholder="e.g. Sinkor, Monrovia"></div>
+        </div>
+      </div>
+
+      <button class="btn btn-grad btn-block" type="submit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send to maker</button>
+      <p class="small-note" style="text-align:center;margin:10px 0 0">No account needed. Your photos are deleted automatically once your order is delivered or cancelled. By sending you agree to the <a href="/legal/terms">Terms of Use</a>.</p>
+    </form>
+  </div>
+</section>
+{% endif %}
+
+{% if page == "home" %}
+<!-- ================= SELL CTA ================= -->
+<section class="sec" id="sellcta">
+  <div class="wrap">
+    <div class="sell-band">
+      <div>
+        <div class="kicker" style="color:#fff">For crochet makers</div>
+        <h2>Stop answering “Is this still available?”</h2>
+        <p>Get your own shop link for your bio and WhatsApp Status, live stock, neat WhatsApp orders, custom-slot tracking, one-tap flyers and accurate sales reporting. Free to join.</p>
+      </div>
+      <a class="btn btn-light" href="/sell">Open your shop <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APP ================= -->
+<section class="sec app-sec" id="app">
+  <div class="wrap">
+    <div class="card-app">
+      <div>
+        <div class="kicker">Mobile app</div>
+        <h2>Get {{ shop.name }} on your phone</h2>
+        <p>Install the app on your home screen for one-tap shopping — it opens full screen like any other app and keeps your cart and favourites.</p>
+        <div class="os">
+          <div><b><i class="fa-brands fa-android"></i> Android</b>Tap <b>Install app</b> below, or open the browser menu ⋮ and choose <i>Install app</i> / <i>Add to Home screen</i>.</div>
+          <div><b><i class="fa-brands fa-apple"></i> iPhone</b>Open this site in Safari, tap the Share button <i class="fa-solid fa-arrow-up-from-bracket" aria-label="(square with an arrow)"></i> then <i>Add to Home Screen</i>.</div>
+        </div>
+        <div class="cta" style="margin-top:18px">
+          <button class="btn btn-grad" type="button" id="installMain">Install app</button>
+          <a class="btn btn-line" href="#shop">Keep shopping</a>
+        </div>
+      </div>
+      <div class="phone" aria-hidden="true"><div class="screen"><img src="{{ url_for('static', filename='icons/icon-192.png') }}" alt=""><b>{{ shop.name }}</b><small>Handmade crochet</small></div></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+</main>
+
+{% include "_footer.html" %}
+
+<!-- ================= BOTTOM NAV ================= -->
+<nav class="bnav" aria-label="App navigation">
+  <a href="{{ '#makers' if page == 'home' else '/' }}" data-bn="makers"><i class="fa-solid fa-store" aria-hidden="true"></i>Makers</a>
+  <a href="#shop" data-bn="shop"><i class="fa-solid fa-shirt" aria-hidden="true"></i>Shop</a>
+  <button type="button" data-action="show-favs"><i class="fa-regular fa-heart" aria-hidden="true"></i>Saved<span class="count" data-fav-count data-n="0">0</span></button>
+  <a href="/orders" data-bn="orders"><i class="fa-solid fa-receipt" aria-hidden="true"></i>Orders</a>
+  <button type="button" data-action="open-cart"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>Cart<span class="count" data-cart-count data-n="0">0</span></button>
+</nav>
+
+<!-- ================= CART DRAWER ================= -->
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+<aside class="drawer" id="cart" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <div class="d-head">
+    <h3 id="cartTitle">Your cart</h3>
+    <button class="x" type="button" data-action="close-cart" aria-label="Close cart">✕</button>
+  </div>
+  <div class="d-body" id="cartBody"></div>
+  <div class="d-foot" id="cartFoot"></div>
+</aside>
+
+<!-- ================= MODALS ================= -->
+<div class="modal" id="pModal" role="dialog" aria-modal="true" aria-labelledby="pTitle"><div class="sheet" id="pSheet"></div></div>
+<div class="modal" id="sModal" role="dialog" aria-modal="true" aria-labelledby="sTitle"><div class="sheet send" id="sSheet"></div></div>
+<div class="modal" id="rModal" role="dialog" aria-modal="true" aria-labelledby="rTitle"><div class="sheet send" id="rSheet"></div></div>
+<div class="modal" id="iosModal" role="dialog" aria-modal="true" aria-labelledby="iosTitle">
+  <div class="sheet send"><div class="send-body">
+    <button class="x" type="button" data-close="iosModal" style="float:right" aria-label="Close">✕</button>
+    <img src="{{ url_for('static', filename='icons/icon-192.png') }}" alt="" style="width:64px;height:64px;border-radius:16px">
+    <h2 id="iosTitle">Install {{ shop.name }}</h2>
+    <p id="iosText"></p>
+    <button class="btn btn-primary btn-block" type="button" data-close="iosModal">Got it</button>
+  </div></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

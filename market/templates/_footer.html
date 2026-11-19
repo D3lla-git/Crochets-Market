@@ -1,0 +1,64 @@
+<footer class="site-foot" aria-labelledby="footHeading">
+  <h2 id="footHeading" class="sr">{{ shop.name }} — site links</h2>
+  <div class="foot-main">
+    <section class="foot-brand" aria-label="About {{ shop.name }}">
+      <a class="fbrand" href="/" aria-label="{{ shop.name }} home">
+        <img src="{{ url_for('static', filename='icons/logo.png') }}" alt="" width="44" height="44">
+        <b>{{ shop.name }}</b>
+      </a>
+      <p class="foot-tagline">A marketplace for Liberia's crochet makers. Browse handmade pieces, order straight from the maker and meet up safely.</p>
+      <p class="foot-loc"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ shop.location }}</p>
+      {% set socials = [("instagram", shop.instagram, "Instagram"), ("facebook", shop.facebook, "Facebook"), ("tiktok", shop.tiktok, "TikTok")] %}
+      {% if shop.instagram or shop.facebook or shop.tiktok %}
+      <ul class="foot-social" aria-label="Follow us">
+        {% for icon, url, label in socials %}{% if url and url.startswith('https://') %}<li><a href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ label }}"><i class="fa-brands fa-{{ icon }}" aria-hidden="true"></i></a></li>{% endif %}{% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+
+    <nav class="foot-col" aria-labelledby="fShop">
+      <h3 id="fShop">Shop</h3>
+      <ul>
+        <li><a href="/#makers">Find a maker</a></li>
+        <li><a href="/#shop">Shop all crochet</a></li>
+        <li><a href="/#custom">Custom orders</a></li>
+        <li><a href="/orders">My orders &amp; receipts</a></li>
+        <li><a href="/#app">Get the app</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot-col" aria-labelledby="fMakers">
+      <h3 id="fMakers">For makers</h3>
+      <ul>
+        <li><a href="/sell">Open a shop</a></li>
+        <li><a href="/admin" rel="nofollow">Seller login</a></li>
+        <li><a href="/legal/sellers">Seller Policy</a></li>
+        <li><a href="/legal/safety">Meetup safety</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot-col" aria-labelledby="fLegal">
+      <h3 id="fLegal">Help &amp; legal</h3>
+      <ul>
+        <li><a href="/legal/terms">Terms of Use</a></li>
+        <li><a href="/legal/privacy">Privacy Policy</a></li>
+        <li><a href="/legal/cookies">Cookie Policy</a></li>
+        {% if ads.client %}<li><a href="#" data-action="cookie-settings">Cookie settings</a></li>{% endif %}
+      </ul>
+    </nav>
+
+    <section class="foot-col foot-contact" aria-labelledby="fContact">
+      <h3 id="fContact">Contact</h3>
+      <ul>
+        <li><a href="mailto:{{ shop.email }}"><i class="fa-regular fa-envelope" aria-hidden="true"></i><span>{{ shop.email }}</span></a></li>
+        <li><a href="https://wa.me/{{ shop.whatsapp }}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>+{{ shop.whatsapp }}</span></a></li>
+      </ul>
+      <p class="foot-note">Questions about an order? Message the maker — every shop page has their WhatsApp.</p>
+    </section>
+  </div>
+
+  <div class="foot-bottom">
+    <p>© {{ year }} {{ shop.name }}, a subsidiary of {{ parent }}. All rights reserved.</p>
+    <p>Every piece is handmade by an independent maker · Built by <a href="/about/developer">Mandella L. Wleh-Sam</a></p>
+  </div>
+</footer>

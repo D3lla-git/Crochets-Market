@@ -1,0 +1,57 @@
+{% extends "legal/_doc.html" %}
+{% block intro %}What information {{ shop.name }} collects, why, who sees it and the choices you have.{% endblock %}
+{% block body %}
+<h2 id="who">1. Who we are</h2>
+<p>{{ shop.name }} ({{ shop.location }}) is a subsidiary of <strong>{{ entity }}</strong>, its parent company. {{ shop.name }} is responsible for the personal information collected through the Platform; {{ entity }} supports it as described in section 3. For anything about your personal information, email <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>.</p>
+
+<h2 id="what">2. What we collect</h2>
+<table>
+  <thead><tr><th>Who</th><th>Information</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>Buyers</td><td>Name, phone/WhatsApp number, area, items ordered, sizes, colours, pickup or delivery choice, notes; for custom requests also measurements, budget, deadline and style photos.</td><td>To pass your order to the Seller so they can contact you, make and hand over your piece.</td></tr>
+    <tr><td>Reviewers</td><td>Order number, phone number (to check it matches the order), star rating, comment. Only your <strong>first name</strong> is shown publicly.</td><td>To publish verified reviews and prevent fake ones.</td></tr>
+    <tr><td>Sellers</td><td>Shop name, your name, email, password (stored only as a secure hash), WhatsApp number, area, bio, photos, pickup spots and days, mobile-money numbers you choose to show, order and sales records.</td><td>To run your shop, show it to Buyers, let you sign in and show your dashboard.</td></tr>
+    <tr><td>Everyone</td><td>Page-view counts per page, shop and product, and a count of daily unique visitors.</td><td>To understand traffic and measure each shop's share of advertising (see section 5).</td></tr>
+  </tbody>
+</table>
+<p>We don't ask for, and don't want, mobile-money PINs, bank or card details, or government ID numbers.</p>
+
+<h2 id="share">3. Who sees your information</h2>
+<ul>
+  <li><strong>The Seller you order from</strong> sees your order details, contact details and any style photos. Each Seller sees only their own orders.</li>
+  <li><strong>The Platform manager</strong> ({{ shop.name }}) can see all shops and orders to run the marketplace, help with problems and prevent abuse.</li>
+  <li><strong>{{ entity }}, our parent company</strong>, may access information where it provides shared services to {{ shop.name }} — such as hosting, technology, security, accounting, legal and customer support — or for group reporting. It must protect your information to the standard of this policy and may not use it for unrelated purposes.</li>
+  <li><strong>WhatsApp/Meta</strong> receives the order message if you choose to send it on WhatsApp — that's covered by WhatsApp's own privacy policy.</li>
+  <li><strong>Google AdSense</strong> may receive device and browsing information to show adverts, <em>only if you accept advertising cookies</em>.</li>
+  <li><strong>Our hosting and e-mail providers</strong> store and transmit data for us.</li>
+  <li>Authorities, if the law requires it or to protect people from harm or fraud.</li>
+</ul>
+<p>We do not sell your personal information. If {{ shop.name }} is reorganised, merged or sold, or the Platform moves to another {{ entity }} company, your information may transfer with it and will stay protected by this policy.</p>
+
+<h2 id="device">4. Information kept on your device</h2>
+<p>Your cart, favourites, your name/phone/area (to pre-fill forms) and recent order numbers are saved in your own browser, not on our servers, until you send an order. You can clear them by clearing your browser's site data. See the <a href="/legal/cookies">Cookie Policy</a>.</p>
+
+<h2 id="analytics">5. Page-view counting</h2>
+<p>When a page loads, our server adds one to a daily counter for that page's shop or product. To count unique visitors without cookies, we combine your IP address and browser type with a secret that changes every day and keep only a scrambled (hashed) result. It can't be turned back into your IP address and can't link your visits across days. Bots and signed-in Sellers are not counted.</p>
+
+<h2 id="keep">6. How long we keep it</h2>
+<ul>
+  <li><strong>Buyers' style photos are deleted automatically</strong> as soon as the Seller marks the order Delivered (sold) or Cancelled.</li>
+  <li><strong>Sellers' product photos are deleted automatically</strong> when the piece is marked sold — by the Seller, or when a delivered order takes the last one in stock. The listing is then removed from the marketplace.</li>
+  <li>Order details (text only — names, items, prices, status): for as long as the Seller's shop exists, so Sellers keep their sales records.</li>
+  <li>Seller accounts: until the shop is deleted. When a shop is deleted — at the Seller's request or by the Platform manager — its login, listings, photos, orders (including buyers' details and photos) and reviews are deleted permanently. Only anonymous page-view totals are kept, for advertising records.</li>
+  <li>Daily visitor hashes: up to 90 days; page-view totals (which contain no personal information) are kept for reporting.</li>
+</ul>
+
+<h2 id="security">7. Security</h2>
+<p>We use HTTPS, store passwords only as hashes, limit sign-in attempts, keep customers' style photos private to the Seller and Platform manager, and restrict each Seller's dashboard to their own shop. No system is perfectly secure; tell us at once if you think an account has been misused.</p>
+
+<h2 id="rights">8. Your choices and rights</h2>
+<p>You can ask us to show you, correct or delete the personal information we hold about you, or to stop using it, by emailing <a href="mailto:{{ shop.email }}">{{ shop.email }}</a> with your order number or shop name. Sellers can edit most of their details in the dashboard. We may need to keep some records where the law requires or to resolve disputes.</p>
+
+<h2 id="children">9. Children</h2>
+<p>The Platform is not intended for children under 16 to use on their own. Measurements for children's clothing should be sent by a parent or guardian.</p>
+
+<h2 id="changes">10. Changes</h2>
+<p>We'll update the date at the top when this policy changes and highlight important changes on the Platform.</p>
+{% endblock %}

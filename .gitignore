@@ -1,0 +1,20 @@
+# secrets & data
+.env
+instance/
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# os / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# local backups
+_original-backup/
+_backup-static-v2/

@@ -1,0 +1,61 @@
+{% extends "legal/_doc.html" %}
+{% block intro %}What we expect from makers who sell on {{ shop.name }} — and what you can expect from us.{% endblock %}
+{% block body %}
+<p>This policy is an agreement between you and <strong>{{ shop.name }}, a subsidiary of {{ entity }}</strong>, and forms part of the <a href="/legal/terms">Terms of Use</a>. {{ entity }}, as parent company, may provide services to the Platform and may enforce this policy.</p>
+
+<h2 id="join">1. Opening a shop</h2>
+<ul>
+  <li>Opening a shop is currently <strong>free</strong>. If we ever introduce fees, we'll tell you at least 30 days in advance and you can close your shop before they apply.</li>
+  <li>Give accurate details. Your WhatsApp number must be one you answer; we may verify it before showing the <em>Verified phone</em> badge.</li>
+  <li>New shops can be reviewed before they go public. We may decline or remove a shop that breaks this policy.</li>
+  <li>One shop per maker or business, unless we agree otherwise. Keep your password private — you're responsible for activity on your account.</li>
+</ul>
+
+<h2 id="listings">2. Listings</h2>
+<ul>
+  <li>Sell only crochet (and closely related handmade) items that <strong>you or your team make</strong>.</li>
+  <li>Use your own photos, or photos you have permission to use. Show the actual piece or a true example of your work.</li>
+  <li>Keep stock accurate so buyers only see what's ready — that's the point of the marketplace.</li>
+  <li><strong>Photos are deleted when a piece is sold.</strong> Marking a piece sold (or delivering the last one in stock) removes the listing and permanently deletes its photos from the Platform. Keep your own copies if you want to reuse them.</li>
+  <li>Prices are set in US$; the L$ estimate is calculated automatically using the Platform's rate. Honour the price shown when the order was sent, unless you agree a change with the buyer before confirming.</li>
+  <li>Turn on <em>Made to order</em> for pieces where the buyer must choose colours and a deadline, and give an honest turnaround time.</li>
+</ul>
+<h3>Not allowed</h3>
+<ul>
+  <li>Items that aren't handmade by you (resold factory items), counterfeit brands or logos you don't have rights to.</li>
+  <li>Anything illegal, dangerous, sexual or offensive.</li>
+  <li>Listings that send buyers to pay outside the details shown on your shop, or that collect buyers' personal information for other purposes.</li>
+</ul>
+
+<h2 id="orders">3. Orders, custom work and deposits</h2>
+<div class="callout warn"><strong>You must report every sale.</strong> Each order has a due date shown in your dashboard — {{ rules.resolveDays }} days after it arrives ({{ rules.customResolveDays }} days, or the buyer's “needed by” date + 7 days, for custom work). By then, mark it <em>Delivered (sold)</em> if the piece was handed over, or <em>Cancelled</em> if the sale didn't happen. We remind you {{ rules.warnDays }} days before. If an order is still open {{ rules.graceDays }} days after its due date, <strong>your shop is suspended automatically</strong>: it disappears from the marketplace and you can't list or edit pieces until you've resolved the orders and we reactivate it. Repeated suspensions may lead to your shop being closed.</div>
+<ul>
+  <li>When a piece sells — through the Platform <em>or anywhere else</em> — mark it sold in your dashboard straight away so buyers never order something that's gone.</li>
+  <li>Reply to new orders promptly (we recommend within 24 hours) and confirm or decline them.</li>
+  <li>Use the order statuses honestly: <em>Confirmed</em> takes pieces out of your stock; <em>Delivered</em> means the handoff happened and lets the buyer leave a review. Don't mark orders delivered that weren't.</li>
+  <li>Set your weekly custom slots realistically and don't accept more custom work than you can finish on time.</li>
+  <li>If you ask for a deposit, show the percentage and your mobile-money number(s) on your shop, take it only after confirming the price and timeline, and agree with the buyer what happens to it if the order is cancelled. You are responsible for deposits you receive.</li>
+</ul>
+
+<h2 id="meetups">4. Meetups and delivery</h2>
+<ul>
+  <li>List only <strong>public, well-lit, busy</strong> pickup spots (markets, malls, campuses, landmarks, delivery hubs). Never ask a buyer to come to a private home unless they choose to.</li>
+  <li>Turn up at the agreed time; tell the buyer early if you can't.</li>
+  <li>Follow the <a href="/legal/safety">Meetup Safety Guide</a>.</li>
+</ul>
+
+<h2 id="data">5. Buyers' information</h2>
+<p>You'll receive buyers' names, phone numbers, areas, measurements and photos. Use them <strong>only</strong> to complete that order. Don't share them or add buyers to broadcast lists without permission. Buyers' style photos are deleted from the Platform automatically when you mark the order Delivered or Cancelled; delete any copies you saved elsewhere too.</p>
+
+<h2 id="reviews">6. Reviews and badges</h2>
+<p>Don't review your own shop, pay or pressure buyers for reviews, or ask them to remove honest reviews. Badges (verified phone, completed handoffs, ratings) are calculated by the Platform and may be removed if they are abused.</p>
+
+<h2 id="marketing">7. Your shop link, flyers and promotion</h2>
+<p>You may share your shop link and the status flyers generated by the dashboard anywhere. We may feature your shop and listings in the directory, search, social media and other promotion of the Platform.</p>
+
+<h2 id="ads">8. Advertising and page views</h2>
+<p>The Platform may show Google adverts on public pages, including your shop and product pages. We count page views per shop and product and show you yours in the dashboard. Advertising revenue belongs to {{ shop.name }} and its parent company {{ entity }}; any sharing of it with Sellers will only happen under a separate written agreement. Creating artificial page views or clicking adverts on your own shop (or asking others to) is prohibited and may lead to removal from the Platform.</p>
+
+<h2 id="enforcement">9. Suspension and closing</h2>
+<p>We may hide listings, remove reviews, suspend shops, or <strong>permanently delete a shop and its seller account</strong> when it breaks this policy or the <a href="/legal/terms">Terms of Use</a>, where buyers report scams or unsafe behaviour, or after repeated suspensions. Deleting a shop removes its listings, photos, orders, buyer details and reviews from the Platform for good — download your reports from the dashboard if you want to keep records. You can ask us to delete your shop at any time by emailing <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>; complete or cancel any open orders first.</p>
+{% endblock %}

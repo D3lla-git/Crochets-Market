@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}Sell your crochet on {{ shop.name }}{% endblock %}
+{% block description %}Open a free shop on {{ shop.name }}: your own store link, live stock, tidy WhatsApp orders, custom-slot tracking, safe pickup spots and one-tap status flyers.{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/sell.js') }}" defer></script>{% endblock %}
+{% block content %}
+<section class="phero">
+  <div class="wrap">
+    <span class="kicker">For crochet makers</span>
+    <h1>Spend less time in your DMs, more time crocheting.</h1>
+    <p>Open a free shop on {{ shop.name }}. Buyers see only what's ready now, send you one neat order on WhatsApp, and pick a safe pickup spot — no more “Is this still available?”.</p>
+  </div>
+</section>
+
+<div class="wrap sell-grid">
+  <ul class="perks">
+    <li><i class="fa-solid fa-link" aria-hidden="true"></i><div><b>Your own shop link</b><p>Put <code>{{ site_url|replace('https://', '')|replace('http://', '') }}/s/your-shop</code> in your Instagram, TikTok and WhatsApp bios. Buyers see only pieces that are ready to buy.</p></div></li>
+    <li><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><div><b>Neat orders in your WhatsApp</b><p>Item names, sizes, colours, total in US$ and L$, pickup spot and day — all in one pre-filled message.</p></div></li>
+    <li><i class="fa-solid fa-scissors" aria-hidden="true"></i><div><b>Custom orders without the chaos</b><p>Turn on “Made to order” per piece so buyers must pick colours and a deadline. Show how many custom slots you have open this week and whether a MoMo / Orange Money deposit is needed.</p></div></li>
+    <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i><div><b>Safer meetups</b><p>List your preferred public pickup spots and days. Buyers choose them at checkout.</p></div></li>
+    <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><div><b>Trust badges</b><p>Verified phone, completed handoffs and reviews from real buyers — the trust random social pages lack.</p></div></li>
+    <li><i class="fa-solid fa-image" aria-hidden="true"></i><div><b>One-tap status flyers</b><p>Download a ready-made image of any piece with price, “Available now” and your shop link for WhatsApp Status or Stories.</p></div></li>
+    <li><i class="fa-solid fa-chart-line" aria-hidden="true"></i><div><b>Your own dashboard</b><p>Sales, stock, orders, pending payments, pieces sold and how many people viewed your shop.</p></div></li>
+  </ul>
+
+  <form class="form-card" id="sellForm" novalidate>
+    <h2>Open your shop</h2>
+    <div class="field"><label for="sShop">Shop name <span class="req">*</span></label><input id="sShop" maxlength="60" required placeholder="e.g. Sinkor Stitches" autocomplete="organization"></div>
+    <div class="two">
+      <div class="field"><label for="sOwner">Your name <span class="req">*</span></label><input id="sOwner" maxlength="80" required autocomplete="name"></div>
+      <div class="field"><label for="sWa">WhatsApp number <span class="req">*</span></label><input id="sWa" type="tel" inputmode="tel" maxlength="30" required placeholder="0770 000 000" autocomplete="tel"></div>
+    </div>
+    <div class="field"><label for="sLoc">Area</label><input id="sLoc" maxlength="120" placeholder="e.g. Paynesville, Monrovia" autocomplete="address-level2"></div>
+    <div class="field"><label for="sEmail">Email (to sign in) <span class="req">*</span></label><input id="sEmail" type="email" maxlength="254" required autocomplete="email"></div>
+    <div class="field"><label for="sPw">Password <span class="req">*</span></label><input id="sPw" type="password" minlength="8" maxlength="200" required autocomplete="new-password"><span class="hint">At least 8 characters.</span></div>
+    <label class="check"><input type="checkbox" id="sAgree" required> <span>I agree to the <a href="/legal/terms" target="_blank">Terms of Use</a>, <a href="/legal/sellers" target="_blank">Seller Policy</a> and <a href="/legal/privacy" target="_blank">Privacy Policy</a>, and I make the pieces I sell.</span></label>
+    <p class="err-msg" id="sErr" role="alert"></p>
+    <button class="btn btn-grad btn-block" type="submit" id="sBtn">Create my shop</button>
+    <p class="hint" style="text-align:center;margin:0">Already selling? <a href="/admin">Sign in</a></p>
+  </form>
+</div>
+{% endblock %}

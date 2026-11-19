@@ -1,0 +1,31 @@
+{% extends "legal/_doc.html" %}
+{% block intro %}The cookies and browser storage {{ shop.name }} uses, and how to control them.{% endblock %}
+{% block body %}
+<h2 id="summary">1. In short</h2>
+<p>The marketplace works with <strong>essential</strong> storage only. <strong>Advertising</strong> cookies from Google are used only if you choose “Accept all” in the cookie banner. You can change your mind at any time with the <a href="#" data-action="cookie-settings">Cookie settings</a> link in the footer.</p>
+
+<h2 id="essential">2. Essential (always on)</h2>
+<table>
+  <thead><tr><th>Name</th><th>Type</th><th>What it does</th><th>How long</th></tr></thead>
+  <tbody>
+    <tr><td><code>cm_session</code></td><td>Cookie (HttpOnly)</td><td>Keeps Sellers and the Platform manager signed in to the dashboard. Only set when you sign in.</td><td>Until you close the browser, or 30 days with “Keep me signed in”</td></tr>
+    <tr><td><code>cm:cart2</code>, <code>cm:favs</code></td><td>Browser storage</td><td>Your cart and saved favourites.</td><td>Until you clear them or send the order</td></tr>
+    <tr><td><code>cm:me</code>, <code>cm:orders</code>, <code>cm:unit</code></td><td>Browser storage</td><td>Pre-fills your name, phone and area; remembers recent order numbers (for reviews) and inches/cm.</td><td>Until you clear site data</td></tr>
+    <tr><td><code>cm:cache:*</code></td><td>Browser storage</td><td>A copy of the catalogue so the app opens on weak connections.</td><td>Replaced on each visit</td></tr>
+    <tr><td><code>cm:consent</code></td><td>Browser storage</td><td>Remembers your cookie choice.</td><td>Until you change it</td></tr>
+    <tr><td>App cache</td><td>Service worker</td><td>Lets the installed app open quickly and offline.</td><td>Updated with each new version</td></tr>
+  </tbody>
+</table>
+<p>Page views are counted on our server <strong>without cookies</strong> — see the <a href="/legal/privacy#analytics">Privacy Policy</a>.</p>
+
+<h2 id="ads">3. Advertising (only with your consent)</h2>
+<p>If you accept, Google AdSense loads adverts on public pages and may set or read cookies (for example <code>__gads</code>, <code>__gpi</code>, <code>IDE</code>) on your device to show relevant adverts, limit how often you see the same advert, measure performance and prevent fraud. Google is responsible for these cookies; see <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">how Google uses cookies in advertising</a>. You can also manage personalised ads at <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ad Settings</a>.</p>
+<p>If you choose “Essential only”, adverts aren't loaded at all.</p>
+
+<h2 id="control">4. Controlling cookies</h2>
+<ul>
+  <li>Use <a href="#" data-action="cookie-settings">Cookie settings</a> to change your choice.</li>
+  <li>Clear this site's data in your browser settings to remove everything stored on your device (your cart and favourites will be emptied).</li>
+  <li>Most browsers can block third-party cookies entirely.</li>
+</ul>
+{% endblock %}

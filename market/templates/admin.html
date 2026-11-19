@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard · {{ shop.name }}</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D2413">
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<!-- Font Awesome icons — use <i class="fa-solid fa-…"></i>, fa-regular or fa-brands anywhere on the page -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+
+<script src="/config.js" defer></script>
+<script src="{{ url_for('static', filename='js/core.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/api.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/art.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/flyer.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/admin.js') }}" defer></script>
+</head>
+<body>
+<noscript><p class="noscript">The dashboard needs JavaScript turned on.</p></noscript>
+<!-- ================= LOGIN ================= -->
+<section id="login" aria-labelledby="loginTitle">
+  <button class="theme-toggle login-theme" type="button" data-action="theme" aria-label="Switch to dark mode"><i class="fa-solid fa-moon ic-light" aria-hidden="true"></i><i class="fa-solid fa-sun ic-dark" aria-hidden="true"></i></button>
+  <div class="login-card">
+    <img src="{{ url_for('static', filename='icons/logo.png') }}" alt="">
+    <h1 id="loginTitle">Dashboard</h1>
+    <p>Sign in to manage your shop on {{ shop.name }}.</p>
+    <form id="loginForm" aria-labelledby="loginTitle">
+      <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required aria-describedby="loginErr"></div>
+      <label class="check"><input type="checkbox" id="remember" checked> Keep me signed in on this device</label>
+      <p class="err-msg" id="loginErr" role="alert" aria-live="assertive"></p>
+      <button class="btn btn-grad btn-block" type="submit" id="loginBtn">Sign in</button>
+    </form>
+    <p class="login-alt">New maker? <a href="/sell">Open your shop</a> · Forgot your password? Email <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
+    <div class="demo-tag hidden" id="demoTag">Running locally — try <b>admin@crochets.local</b> / <b>admin</b> (manager) or <b>sinkor@demo.local</b> / <b>demo-seller-123</b> (seller)</div>
+  </div>
+</section>
+
+<!-- ================= APP ================= -->
+<div class="shell hidden" id="app">
+  <aside class="side">
+    <div class="brand"><img src="{{ url_for('static', filename='icons/logo.png') }}" alt=""><div><b id="sideName">{{ shop.name }}</b><small id="sideRole">Dashboard</small></div></div>
+    <nav aria-label="Dashboard" id="sideNav"></nav>
+    <div class="bottom">
+      <a class="nav-btn" id="viewStore" href="/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>View shop</a>
+      <button class="nav-btn" type="button" data-action="logout"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <img class="m-logo" src="{{ url_for('static', filename='icons/logo.png') }}" alt="">
+      <h1 id="viewTitle">Overview</h1>
+      <div class="actions">
+        <button class="theme-toggle" type="button" data-action="theme" aria-label="Switch to dark mode"><i class="fa-solid fa-moon ic-light" aria-hidden="true"></i><i class="fa-solid fa-sun ic-dark" aria-hidden="true"></i></button>
+        <label class="scope hidden" id="scopeWrap"><span class="sr">Show figures for</span>
+          <select class="in" id="scope"></select></label>
+        <div class="notif-wrap">
+          <button class="icon-btn notif-btn" type="button" data-action="notif" id="notifBtn" aria-label="Order alerts" aria-expanded="false" aria-controls="notifPanel"><i class="fa-solid fa-bell" aria-hidden="true"></i><span class="notif-count hidden" id="notifCount"></span></button>
+          <div class="notif-panel hidden" id="notifPanel" role="region" aria-label="New orders"></div>
+        </div>
+        <button class="icon-btn" type="button" data-action="refresh" aria-label="Refresh data" id="refreshBtn"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>
+        <button class="btn btn-grad" type="button" data-action="add-product"><i class="fa-solid fa-plus" aria-hidden="true"></i><span>Add crochet</span></button>
+      </div>
+    </header>
+    <div class="content">
+      <div class="banner hidden" id="pendingBanner" role="note"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i><span><b>Your shop is waiting for approval.</b> Set up your store and add pieces now — they become public as soon as the {{ shop.name }} team approves you.</span></div>
+      <div class="banner hidden" id="dueBanner" role="alert"></div>
+      <div id="view" aria-live="polite"><div class="loader" role="status"><i></i>Loading…</div></div>
+    </div>
+  </main>
+
+  <nav class="tabs" aria-label="Dashboard" id="tabNav"></nav>
+</div>
+
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+<div class="modal" id="mProduct" role="dialog" aria-modal="true" aria-labelledby="mpTitle"><div class="sheet" id="mProductSheet"></div></div>
+<div class="modal" id="mOrder" role="dialog" aria-modal="true" aria-labelledby="moTitle"><div class="sheet" id="mOrderSheet"></div></div>
+<div class="modal" id="mSeller" role="dialog" aria-modal="true" aria-labelledby="msTitle"><div class="sheet" id="mSellerSheet"></div></div>
+<div class="modal small" id="mFlyer" role="dialog" aria-modal="true" aria-labelledby="mfTitle"><div class="sheet" id="mFlyerSheet"></div></div>
+<div class="modal small" id="mConfirm" role="alertdialog" aria-modal="true" aria-labelledby="mcTitle"><div class="sheet" id="mConfirmSheet"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,174 @@
+/* =====================================================================
+   Crochets Market — shared design tokens & base styles
+   Loaded by both the shop (index.html) and the dashboard (admin.html).
+   ===================================================================== */
+/* Palette: the D.A.R.T forest-to-green gradient (#0d2413 → #198754 → #39b972) with
+   D.A.R.T's gold as a warm accent, on neutral sage-grey surfaces — calm and unisex.
+   Light is the default; dark comes from the device setting, or the visitor's own
+   choice (theme.js sets <html data-theme="light|dark">). */
+:root {
+  /* brand */
+  --forest: #0D2413; --forest-2: #071208;
+  --accent: #198754; --accent-2: #39B972; --accent-soft: #E3F4EA; --accent-ink: #11603B;
+  --gold: #F5C542; --gold-ink: #A87A00;
+  --blue: #2E6F95; --blue-2: #9CC3D8; --blue-soft: #E4EFF5; --blue-soft-2: #D3E6F0;
+  --grey: #87958C; --grey-2: #C3CDC6; --grey-soft: #EDF1EE;
+
+  /* text & surfaces */
+  --ink: #14201A; --ink-2: #33443A; --muted: #5C6B62; --line: #DDE5E0;
+  --bg: #F5F8F6; --card: #FFFFFF;
+  --inverse-bg: #14201A; --inverse-text: #FFFFFF;
+  --nav-bg: #0D2413;
+
+  /* status colours */
+  --good: #1E8449; --good-bg: #E2F4E8;
+  --warn: #9A6700; --warn-bg: #FDF3D6;
+  --bad: #B83A4B;  --bad-bg: #FBE6E8;
+
+  /* gradients */
+  --grad: radial-gradient(circle at 85% 20%, rgba(57, 185, 114, .30), transparent 45%),
+          linear-gradient(135deg, #D6EFDF 0%, #EAF5EE 55%, #F4F0E3 100%);
+  --grad-strong: linear-gradient(135deg, #0D2413 0%, #198754 100%);
+  --grad-soft: linear-gradient(135deg, #E7F4EC 0%, #F1F7F3 55%, #F6F3EA 100%);
+  --grad-text: linear-gradient(135deg, #0D2413 0%, #198754 100%);
+  --grad-dark: radial-gradient(circle at 85% 30%, rgba(57, 185, 114, .30), transparent 32%),
+               linear-gradient(135deg, #071208, #0D2413 55%, #061008);
+
+  /* shape & depth */
+  --radius: 20px; --radius-sm: 12px;
+  --shadow: 0 10px 30px -12px rgba(13, 36, 19, .25);
+  --shadow-lg: 0 30px 60px -20px rgba(13, 36, 19, .35);
+
+  /* type */
+  --head: "Fraunces", Georgia, "Times New Roman", serif;
+  --body: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* device safe areas (notches, home bars) */
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+
+  color-scheme: light;
+}
+
+/* ---------- dark mode ---------- */
+:root[data-theme="dark"] {
+  --accent: #39B972; --accent-2: #2A8F57; --accent-soft: rgba(57, 185, 114, .15); --accent-ink: #7DDDA4;
+  --gold: #F5C542; --gold-ink: #F5C542;
+  --blue: #7FB6D6; --blue-2: #3D6B85; --blue-soft: rgba(127, 182, 214, .12); --blue-soft-2: rgba(127, 182, 214, .2);
+  --grey: #7E8C83; --grey-2: #3A4740; --grey-soft: #1E2822;
+
+  --ink: #E8F0EB; --ink-2: #C3D0C8; --muted: #93A39A; --line: #2A3630;
+  --bg: #0C120E; --card: #141C17;
+  --inverse-bg: #E8F0EB; --inverse-text: #0C120E;
+  --nav-bg: #071208;
+
+  --good: #4CD38A; --good-bg: rgba(76, 211, 138, .14);
+  --warn: #F5C542; --warn-bg: rgba(245, 197, 66, .14);
+  --bad: #FF8A96;  --bad-bg: rgba(255, 138, 150, .14);
+
+  --grad: var(--grad-dark);
+  --grad-strong: linear-gradient(135deg, #198754 0%, #39B972 100%);
+  --grad-soft: linear-gradient(135deg, #16241B 0%, #141C17 55%, #1B1C15 100%);
+  --grad-text: linear-gradient(135deg, #4CD38A 0%, #B8EBCB 100%);
+
+  --shadow: 0 10px 30px -12px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 30px 60px -20px rgba(0, 0, 0, .7);
+  color-scheme: dark;
+}
+
+/* Theme toggle button (shown in every header). */
+.theme-toggle { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  display: inline-grid; place-items: center; cursor: pointer; flex: none; transition: transform .15s }
+.theme-toggle:hover { transform: translateY(-1px) }
+.theme-toggle .ic-dark { display: none }
+:root[data-theme="dark"] .theme-toggle .ic-light { display: none }
+:root[data-theme="dark"] .theme-toggle .ic-dark { display: inline }
+
+/* Inputs follow the theme too. */
+input, select, textarea { background-color: var(--card); color: var(--ink) }
+::placeholder { color: var(--muted); opacity: .8 }
+
+*, *::before, *::after { box-sizing: border-box }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100% }
+body {
+  margin: 0;
+  font-family: var(--body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block }
+button, input, select, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+a { color: inherit }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 8px }
+
+/* utilities */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }
+.hidden { display: none !important }
+.no-scroll { overflow: hidden }
+
+@keyframes spin { to { transform: rotate(360deg) } }
+
+/* Respect people who ask their device for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ---------- site footer (shop, legal & info pages) ---------- */
+.site-foot { background: var(--grad-dark), var(--nav-bg); color: #C6D3CA; margin-top: 10px; font-size: .92rem; line-height: 1.55 }
+.foot-main, .foot-bottom { max-width: 1180px; margin: 0 auto; padding-left: 20px; padding-right: 20px }
+.foot-main { display: grid; gap: 32px 28px; padding-top: 48px; padding-bottom: 36px; grid-template-columns: repeat(2, minmax(0, 1fr)) }
+.foot-brand, .foot-contact { grid-column: 1 / -1 }
+@media (min-width: 760px) { .foot-main { grid-template-columns: repeat(3, minmax(0, 1fr)) } }
+@media (min-width: 1000px) {
+  .foot-main { grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)) max-content; gap: 32px 32px }
+  .foot-contact li a span { overflow-wrap: normal; white-space: nowrap }
+  .foot-brand, .foot-contact { grid-column: auto }
+  .foot-brand { padding-right: 12px }
+}
+.site-foot h3 { color: #fff; margin: 0 0 14px; font-family: var(--head); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase }
+.site-foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px }
+.site-foot p { margin: 0 }
+.site-foot a { color: #E3ECE6; text-decoration: none; font-weight: 600; transition: color .15s }
+.site-foot a:hover, .site-foot a:focus-visible { color: #6FDB9E; text-decoration: underline; text-underline-offset: 3px }
+.fbrand { display: inline-flex; gap: 10px; align-items: center; margin-bottom: 14px }
+.fbrand:hover { text-decoration: none !important }
+.fbrand img { width: 44px; height: 44px; border-radius: 12px }
+.fbrand b { font-family: var(--head); font-size: 1.3rem; color: #fff }
+.foot-tagline { max-width: 34ch; color: #B4C3BA; margin-bottom: 12px !important }
+.foot-loc { display: flex; align-items: center; gap: 8px; color: #B4C3BA }
+.foot-loc i { color: #F5C542 }
+.foot-social { display: flex !important; gap: 10px !important; margin-top: 16px !important }
+.foot-social a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, .08); font-size: 1rem }
+.foot-social a:hover { background: rgba(255, 255, 255, .16); text-decoration: none }
+.foot-contact li a { display: inline-flex; align-items: flex-start; gap: 10px; min-width: 0 }
+.foot-contact li a i { width: 16px; margin-top: 4px; color: #F5C542; flex: none }
+.foot-contact li a span { overflow-wrap: anywhere }
+.foot-note { margin-top: 14px !important; font-size: .82rem; color: #93A39A; max-width: 36ch }
+.foot-bottom { border-top: 1px solid rgba(255, 255, 255, .1); padding-top: 18px; padding-bottom: calc(22px + var(--safe-b)); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; font-size: .8rem; color: #93A39A }
+
+/* ---------- cookie consent ---------- */
+.consent { position: fixed; z-index: 95; left: 12px; right: 12px; bottom: calc(84px + var(--safe-b)); max-width: 720px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-lg); padding: 16px 18px; display: grid; gap: 12px }
+@media (min-width: 760px) { .consent { bottom: 20px; grid-template-columns: 1fr auto; align-items: center } }
+.consent b { font-size: 1rem }
+.consent p { margin: 4px 0 0; font-size: .88rem; color: var(--ink-2) }
+.consent a { color: var(--accent); font-weight: 800 }
+.consent-actions { display: flex; gap: 8px; flex-wrap: wrap }
+.consent-btn { border: 0; border-radius: 999px; padding: 10px 16px; font-weight: 800; background: var(--grad-strong); color: #fff }
+.consent-btn.ghost { background: var(--card); color: var(--ink); border: 1.5px solid var(--line) }
+
+/* ---------- advert slots: empty (and invisible) until a visitor accepts ads ---------- */
+.ad-slot { display: none }
+.ad-slot.on { display: block; margin: 22px auto; min-height: 90px; text-align: center; overflow: hidden }
+.ad-slot.on::before { content: "Advertisement"; display: block; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px }
+
+/* Placeholder crochet drawings (art.js) follow the theme. */
+:root { --art-1: #E3F2EA; --art-2: #EEF5F0; --art-3: #F5F1E6; --art-dot: #FFFFFF }
+:root[data-theme="dark"] { --art-1: #18261D; --art-2: #141C17; --art-3: #1E1E16; --art-dot: #2A3A30 }

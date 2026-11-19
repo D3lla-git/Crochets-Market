@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block title %}{{ "Receipt" if r.isReceipt else "Order" }} #{{ r.id }} · {{ shop.name }}{% endblock %}
+{% block description %}Your {{ shop.name }} order #{{ r.id }}.{% endblock %}
+{% block scripts %}
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/receipt.css') }}">
+<script src="{{ url_for('static', filename='js/receipt.js') }}" defer></script>
+{% endblock %}
+{% macro money(d) %}<span class="m">{{ d.text }}</span><small class="alt">≈ {{ d.alt }}</small>{% endmacro %}
+{% block content %}
+<div class="wrap rc-page" data-receipt-id="{{ r.id }}" data-receipt-path="{{ r.path }}" data-seller="{{ r.seller.slug }}">
+  <div class="rc-tools no-print">
+    <a class="btn btn-line btn-sm" href="/orders"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> My orders</a>
+    <span class="grow"></span>
+    <button class="btn btn-line btn-sm" type="button" data-action="copy-receipt"><i class="fa-solid fa-link" aria-hidden="true"></i> Copy link</button>
+    <button class="btn btn-grad btn-sm" type="button" data-action="print"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Save PDF</button>
+  </div>
+
+  <article class="rc" aria-labelledby="rcTitle">
+    <header class="rc-head">
+      <div class="rc-brand"><img src="{{ url_for('static', filename='icons/logo.png') }}" alt="" width="40" height="40"><div><b>{{ shop.name }}</b><small>a subsidiary of {{ parent }}</small></div></div>
+      <div class="rc-id">
+        <h1 id="rcTitle">{{ "Receipt" if r.isReceipt else ("Custom request" if r.type == "custom" else "Order summary") }}</h1>
+        <p>#{{ r.id }} · <time datetime="{{ r.createdAt }}" data-local-date>{{ r.createdAt[:10] }}</time></p>
+      </div>
+    </header>
+
+    <section class="rc-status tone-{{ r.tone }}" aria-label="Order status">
+      <div class="rc-status-top"><span class="chip">{{ r.statusLabel }}</span><p>{{ r.statusText }}</p></div>
+      {% if r.status != "Cancelled" %}
+      <ol class="rc-steps">
+        {% for s in r.steps %}<li class="{{ 'done' if s.done }}"><span class="dot" aria-hidden="true">{% if s.done %}<i class="fa-solid fa-check"></i>{% endif %}</span>{{ s.name }}</li>{% endfor %}
+      </ol>
+      {% endif %}
+    </section>
+
+    <section class="rc-parties">
+      <div><h2>Sold by</h2><p><b>{{ r.seller.name }}</b></p>{% if r.seller.location %}<p>{{ r.seller.location }}</p>{% endif %}
+        {% if r.seller.whatsapp %}<p>WhatsApp +{{ r.seller.whatsapp }}</p>{% endif %}</div>
+      <div><h2>Bought by</h2><p><b>{{ r.customer.name }}</b></p><p>{{ r.customer.phone }}</p>{% if r.customer.location %}<p>{{ r.customer.location }}</p>{% endif %}</div>
+      <div><h2>Handoff</h2>
+        {% if r.type == "cart" %}
+          {% if r.delivery == "Pickup" %}<p><b>Pickup</b>{% if r.pickupSpot %} at {{ r.pickupSpot }}{% endif %}</p>{% if r.pickupDay %}<p>{{ r.pickupDay }}</p>{% endif %}
+          {% elif r.delivery == "Delivery" %}<p><b>Delivery</b></p>{% if r.deliveryOption %}<p>{{ r.deliveryOption }}</p>{% endif %}
+          {% else %}<p><b>{{ r.delivery }}</b></p>{% endif %}
+        {% else %}<p>Agreed with the maker on WhatsApp</p>{% endif %}</div>
+    </section>
+
+    {% if r.type == "cart" %}
+    <section aria-label="Items">
+      <table class="rc-items">
+        <thead><tr><th scope="col">Item</th><th scope="col" class="n">Qty</th><th scope="col" class="n">Price</th><th scope="col" class="n">Amount</th></tr></thead>
+        <tbody>
+        {% for i in r['items'] %}
+          <tr><td><b>{{ i.name }}</b><small>Size {{ i.size }} · {{ i.color }}{% if i.custom %} · Made to order: {{ i.custom.colors }}, needed by {{ i.custom.deadline }}{% endif %}</small></td>
+            <td class="n">{{ i.qty }}</td><td class="n">{{ i.price.text }}</td><td class="n">{{ money(i.amount) }}</td></tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr><td colspan="3">Items</td><td class="n">{{ money(r.itemsTotal) }}</td></tr>
+          {% if r.delivery == "Pickup" %}<tr><td colspan="3">Pickup (no delivery fee)</td><td class="n">—</td></tr>
+          {% elif r.delivery == "Delivery" or r.deliveryFee.usd %}<tr><td colspan="3">Delivery fee</td><td class="n">{% if r.deliveryFee.usd %}{{ money(r.deliveryFee) }}{% else %}{{ "To be agreed" if r.status == "New" else "Free" }}{% endif %}</td></tr>{% endif %}
+          <tr class="grand"><td colspan="3">Total</td><td class="n">{{ money(r.total) }}</td></tr>
+        </tfoot>
+      </table>
+    </section>
+    {% else %}
+    <section class="rc-custom" aria-label="Custom request">
+      <dl>
+        <dt>Piece</dt><dd>{{ r.custom.type }}{% if r.custom.forWho %} (for {{ r.custom.forWho }}){% endif %}</dd>
+        {% if r.custom.colors %}<dt>Colours</dt><dd>{{ r.custom.colors }}</dd>{% endif %}
+        {% if r.custom.usualSize %}<dt>Usual size</dt><dd>{{ r.custom.usualSize }}</dd>{% endif %}
+        {% if r.custom.date %}<dt>Needed by</dt><dd>{{ r.custom.date }}</dd>{% endif %}
+        {% if r.custom.notes %}<dt>Notes</dt><dd>{{ r.custom.notes }}</dd>{% endif %}
+      </dl>
+      <div class="rc-price"><span>Price</span><b>{% if r.total %}{{ money(r.total) }}{% else %}To be agreed with {{ r.seller.name }}{% endif %}</b></div>
+    </section>
+    {% endif %}
+
+    {% if r.deposit %}
+    <p class="rc-deposit"><i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
+      <span><b>Deposit for custom work: {{ r.deposit.percent }}%</b>{% if r.deposit.text %} = {{ r.deposit.text }} (≈ {{ r.deposit.alt }}){% if r.deposit.partial %} on the made-to-order pieces{% endif %}{% endif %}, paid by mobile money before the maker starts.</span></p>
+    {% endif %}
+    {% if r.note %}<p class="rc-note"><b>Your note:</b> {{ r.note }}</p>{% endif %}
+
+    <footer class="rc-foot">
+      <p>Prices in {{ r.currency }} with the {{ r.altCurrency }} equivalent at the rate used for this order ({{ r.currency }}1 = {{ r.altCurrency }}{{ r.rate|round|int }}). You pay {{ r.seller.name }} directly{% if r.status in ("New", "Confirmed") %} when you collect, unless a deposit is asked for{% endif %}.</p>
+      <p>{{ shop.name }} connects buyers with independent makers. Questions about this order? Message {{ r.seller.name }}{% if r.seller.whatsapp %} on WhatsApp{% endif %} and quote #{{ r.id }}.</p>
+    </footer>
+  </article>
+
+  <div class="rc-actions no-print">
+    {% if r.seller.whatsapp %}<a class="btn btn-wa" href="https://api.whatsapp.com/send?phone={{ r.seller.whatsapp }}&amp;text={{ ('Hi ' ~ r.seller.name ~ ', about my order #' ~ r.id)|urlencode }}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Message {{ r.seller.name }}</a>{% endif %}
+    {% if r.status == "Delivered" and r.seller.slug %}<a class="btn btn-line" href="/s/{{ r.seller.slug }}#reviews"><i class="fa-regular fa-star" aria-hidden="true"></i> Leave a review</a>{% endif %}
+    {% if r.seller.slug %}<a class="btn btn-line" href="/s/{{ r.seller.slug }}"><i class="fa-solid fa-store" aria-hidden="true"></i> Visit the shop</a>{% endif %}
+  </div>
+  <p class="rc-private no-print"><i class="fa-solid fa-lock" aria-hidden="true"></i><span>This page is private to you: only people with this link can open it. Save it, or find it again under <a href="/orders">My orders</a>.</span></p>
+</div>
+{% endblock %}

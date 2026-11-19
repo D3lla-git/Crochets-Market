@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}My orders · {{ shop.name }}{% endblock %}
+{% block description %}Your {{ shop.name }} orders and receipts.{% endblock %}
+{% block scripts %}
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/receipt.css') }}">
+<script src="{{ url_for('static', filename='js/orders.js') }}" defer></script>
+{% endblock %}
+{% block content %}
+<div class="wrap mo-page">
+  <header>
+    <h1>My orders</h1>
+    <p class="mo-intro">No account needed. Orders you send from this phone or computer are saved here, with a receipt for each one.</p>
+  </header>
+
+  <div id="moList" aria-live="polite"><p class="mo-loading">Loading your orders…</p></div>
+
+  <section class="mo-find" aria-labelledby="moFindTitle">
+    <h2 id="moFindTitle">Find an order</h2>
+    <p>Ordered on another device, or cleared your browser? Enter the order number and the phone number you used.</p>
+    <form id="moFind" novalidate>
+      <div class="field"><label for="moId">Order number</label><input id="moId" maxlength="20" placeholder="CM-261118-AB12" autocapitalize="characters" autocomplete="off" required></div>
+      <div class="field"><label for="moPhone">Phone number</label><input id="moPhone" type="tel" inputmode="tel" maxlength="30" placeholder="0770 000 000" autocomplete="tel" required></div>
+      <button class="btn btn-grad" type="submit" id="moBtn"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Find</button>
+    </form>
+    <p class="err-msg" id="moErr" role="alert"></p>
+  </section>
+</div>
+{% endblock %}

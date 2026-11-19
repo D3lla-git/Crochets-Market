@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About the developer · {{ shop.name }}</title>
+<meta name="description" content="{{ developer.name }} — {{ developer.headline }}. The developer behind {{ shop.name }}.">
+<meta name="theme-color" content="#0D2413">
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="{{ developer.name }} — developer of {{ shop.name }}">
+<meta property="og:description" content="{{ developer.headline }} · {{ developer.location }}">
+<meta property="og:image" content="{{ url_for('static', filename=developer.photo, _external=True) }}">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<!-- Font Awesome icons — use <i class="fa-solid fa-…"></i>, fa-regular or fa-brands anywhere on the page -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+<script src="/config.js" defer></script>
+<script src="{{ url_for('static', filename='js/consent.js') }}" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="{{ shop.name }} home">
+      <img src="{{ url_for('static', filename='icons/logo.png') }}" alt="" width="36" height="36">
+      <b>{{ shop.name }}</b>
+    </a>
+    <a class="back" href="/">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Back to the shop
+    </a>
+    <button class="theme-toggle" type="button" data-action="theme" aria-label="Switch to dark mode" style="margin-left:8px"><i class="fa-solid fa-moon ic-light" aria-hidden="true"></i><i class="fa-solid fa-sun ic-dark" aria-hidden="true"></i></button>
+  </div>
+</header>
+
+<main id="main">
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="devName">
+    <div class="wrap hero-grid">
+      <div class="photo-wrap">
+        <img class="photo" src="{{ url_for('static', filename=developer.photo) }}" alt="Portrait of {{ developer.name }}" width="613" height="640">
+        <span class="photo-badge"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg>Developer</span>
+      </div>
+      <div class="hero-copy">
+        <span class="eyebrow">About the developer</span>
+        <h1 id="devName">{{ developer.name }}</h1>
+        <p class="headline">{{ developer.headline }}</p>
+        <ul class="facts" aria-label="Quick facts">
+          <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.1 7-12a7 7 0 0 0-14 0c0 5.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>{{ developer.location }}</li>
+          <li><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg>{{ developer.degree }}</li>
+        </ul>
+        <div class="cta">
+          <a class="btn btn-primary" href="mailto:{{ developer.email }}?subject={{ ('Hello from ' ~ shop.name)|urlencode }}">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            Get in touch
+          </a>
+          <a class="btn btn-line" href="{{ developer.linkedin }}" target="_blank" rel="noopener">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-4.9c0-1.17-.02-2.68-1.63-2.68-1.64 0-1.89 1.28-1.89 2.6V21h-4z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HIGHLIGHTS ============ -->
+  <section class="wrap stats" aria-label="Highlights">
+    <div class="stat"><b>{{ developer.projects|length + 1 }}</b><span>platforms built, including {{ shop.name }}</span></div>
+    <div class="stat"><b>{{ developer.certifications|length }}</b><span>security &amp; data certifications, 2025&#8209;26</span></div>
+    <div class="stat"><b>{{ developer.skills|length }}</b><span>tools &amp; technologies in the toolkit</span></div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="wrap sec two-col" aria-labelledby="hAbout">
+    <div>
+      <span class="kicker">Who's behind {{ shop.name }}</span>
+      <h2 id="hAbout">Secure, reliable systems — built in Liberia</h2>
+    </div>
+    <div class="prose">
+      <p>{{ developer.short_name }} is an IT professional from {{ developer.location }} with a {{ developer.education.degree }} from {{ developer.education.school }}. The focus is on building and maintaining systems that are secure, dependable and accurate: from networks and servers to the data that runs a business.</p>
+      <p>{{ developer.short_name.split(' ')[0] }} designed and built <strong>{{ shop.name }}</strong> so local crochet makers can sell online and accurately track sales and inventory with no fuss. Customers browse, pick sizes and colours, and send orders straight to the seller on WhatsApp. Prices show in both US and Liberian dollars, and the seller manages stock, orders and sales from one simple dashboard.</p>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section class="wrap sec" aria-labelledby="hExp">
+    <span class="kicker">Career</span>
+    <h2 id="hExp">Experience</h2>
+    <ol class="timeline">
+      {% for job in developer.experience %}
+      <li>
+        <span class="when">{{ job.period }}</span>
+        <h3>{{ job.role }}</h3>
+        <p class="org">{{ job.org }}</p>
+        {% if job.detail %}<p class="detail">{{ job.detail }}</p>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <!-- ============ CERTIFICATIONS ============ -->
+  <section class="wrap sec" aria-labelledby="hCerts">
+    <span class="kicker">Security &amp; trust</span>
+    <h2 id="hCerts">Certifications</h2>
+    <div class="cards">
+      {% for cert in developer.certifications %}
+      <article class="card">
+        <span class="card-ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <span class="year">{{ cert.year }}</span>
+        <h3>{{ cert.title }}</h3>
+        <p>{{ cert.issuer }}</p>
+      </article>
+      {% endfor %}
+      <article class="card edu">
+        <span class="card-ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span>
+        <span class="year">Degree</span>
+        <h3>{{ developer.education.degree }}</h3>
+        <p>{{ developer.education.school }}</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ TOOLKIT ============ -->
+  <section class="wrap sec" aria-labelledby="hTools">
+    <span class="kicker">Toolkit</span>
+    <h2 id="hTools">Skills &amp; technologies</h2>
+    <ul class="chips">
+      {% for skill in developer.skills %}<li>{{ skill }}</li>{% endfor %}
+    </ul>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section class="wrap sec" aria-labelledby="hWork">
+    <span class="kicker">Work</span>
+    <h2 id="hWork">Projects</h2>
+    <div class="projects">
+      <article class="project current">
+        <span class="tag">You're here</span>
+        <h3>{{ shop.name }}</h3>
+        <p>Online crochet shop and seller dashboard, built with Python and Flask. Includes WhatsApp ordering, custom-style requests with measurements, dual US$ / L$ pricing, stock tracking and an installable phone app.</p>
+        <a class="link" href="/">Visit the shop →</a>
+      </article>
+      {% for project in developer.projects %}
+      <article class="project">
+        <span class="tag">{{ project.role }}</span>
+        <h3>{{ project.name }}</h3>
+        <p>{{ project.summary }}</p>
+        {% if project.quote %}<blockquote>“{{ project.quote }}”</blockquote>{% endif %}
+        <a class="link" href="{{ project.url }}" target="_blank" rel="noopener">Visit {{ project.name }} ↗</a>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="wrap sec" aria-labelledby="hContact">
+    <div class="contact">
+      <div>
+        <h2 id="hContact">Have a project or a question?</h2>
+        <p>Get in touch with {{ developer.short_name.split(' ')[0] }} by e-mail or on LinkedIn.</p>
+      </div>
+      <div class="cta">
+        <a class="btn btn-light" href="mailto:{{ developer.email }}?subject={{ ('Hello from ' ~ shop.name)|urlencode }}">{{ developer.email }}</a>
+        <a class="btn btn-ghost" href="{{ developer.linkedin }}" target="_blank" rel="noopener">Connect on LinkedIn ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% include "_footer.html" %}
+</body>
+</html>
